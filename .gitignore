@@ -1,0 +1,12 @@
+# 데이터셋은 용량이 커서 저장소에 올리지 않음 (README의 데이터 준비 참고)
+TrashNet_dataset/
+dataset-resized/
+data/
+# 학습된 가중치
+checkpoints/
+*.pt
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+logs/

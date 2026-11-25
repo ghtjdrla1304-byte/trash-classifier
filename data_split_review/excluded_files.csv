@@ -1,0 +1,6 @@
+﻿"path","label","group_id","split","status","reason","train_only","representative","hold_path","zip_path"
+"dataset-resized/glass/glass176.jpg","glass","G00273","","excluded","confirmed_mislabel","","dataset-resized/plastic/plastic152.jpg","",""
+"dataset-resized/metal/metal91.jpg","metal","G00219","","excluded","confirmed_mislabel","","dataset-resized/glass/glass115.jpg","",""
+"dataset-resized/paper/paper590.jpg","paper","G01679","","excluded","confirmed_mislabel","","","",""
+"dataset-resized/paper/paper591.jpg","paper","G01679","","excluded","confirmed_mislabel","","","",""
+"dataset-resized/plastic/plastic332.jpg","plastic","G00410","","excluded","confirmed_mislabel","","dataset-resized/glass/glass389.jpg","",""
