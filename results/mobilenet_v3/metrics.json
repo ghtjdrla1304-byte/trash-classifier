@@ -1,0 +1,14 @@
+{
+  "arch": "mobilenet_v3",
+  "pretrained": true,
+  "epochs": 20,
+  "best_epoch": 13,
+  "train_time_sec": 198.2,
+  "baseline_majority_class": "paper",
+  "baseline_test_acc": 0.23607427055702918,
+  "baseline_test_macro_f1": 0.06366237482117311,
+  "best_val_macro_f1": 0.9133333756403296,
+  "test_acc": 0.9151193633952255,
+  "test_macro_f1": 0.9010355780432507,
+  "n_test": 377
+}

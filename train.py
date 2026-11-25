@@ -206,7 +206,7 @@ def main():
     majority = int(counts.argmax())
     base = np.full_like(yt, majority)
     res = {
-        "arch": args.arch, "pretrained": not args.no_pretrained, "epochs": args.epochs,
+        "arch": args.arch, "pretrained": not args.no_pretrained and args.arch != "simple_cnn", "epochs": args.epochs,
         "best_epoch": int(torch.load(ckpt_path, map_location="cpu")["epoch"]),
         "train_time_sec": round(train_time, 1),
         "baseline_majority_class": CLASSES[majority],

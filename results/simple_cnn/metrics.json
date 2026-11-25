@@ -1,0 +1,14 @@
+{
+  "arch": "simple_cnn",
+  "pretrained": false,
+  "epochs": 40,
+  "best_epoch": 39,
+  "train_time_sec": 279.2,
+  "baseline_majority_class": "paper",
+  "baseline_test_acc": 0.23607427055702918,
+  "baseline_test_macro_f1": 0.06366237482117311,
+  "best_val_macro_f1": 0.660761056878797,
+  "test_acc": 0.7029177718832891,
+  "test_macro_f1": 0.6829486797850651,
+  "n_test": 377
+}

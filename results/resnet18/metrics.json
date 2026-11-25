@@ -1,0 +1,14 @@
+{
+  "arch": "resnet18",
+  "pretrained": true,
+  "epochs": 20,
+  "best_epoch": 12,
+  "train_time_sec": 218.5,
+  "baseline_majority_class": "paper",
+  "baseline_test_acc": 0.23607427055702918,
+  "baseline_test_macro_f1": 0.06366237482117311,
+  "best_val_macro_f1": 0.9090244458014237,
+  "test_acc": 0.9071618037135278,
+  "test_macro_f1": 0.8974708104406289,
+  "n_test": 377
+}
