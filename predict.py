@@ -2,10 +2,10 @@
 
 예)
   # 사진 한 장 또는 폴더 예측
-  python predict.py --model checkpoints/resnet18.pt --input photo.jpg
+  python predict.py --model checkpoints/efficientnet_b0.pt --input photo.jpg
 
   # 추가 시험: 학습에 없던 물체를 다른 배경에서 찍어 <폴더>/<클래스>/ 에 넣고 평가
-  python predict.py --model checkpoints/resnet18.pt --evaluate my_photos/
+  python predict.py --model checkpoints/efficientnet_b0.pt --evaluate my_photos/
 """
 import argparse
 from pathlib import Path
@@ -21,7 +21,7 @@ from common import IMG_EXT, KOREAN, collect, get_transforms, load_checkpoint
 @torch.no_grad()
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--model", default="checkpoints/resnet18.pt")
+    ap.add_argument("--model", default="checkpoints/efficientnet_b0.pt")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--input", help="이미지 파일 또는 이미지가 든 폴더")
     g.add_argument("--evaluate", help="<폴더>/<클래스 이름>/*.jpg 구조의 추가 시험 폴더")

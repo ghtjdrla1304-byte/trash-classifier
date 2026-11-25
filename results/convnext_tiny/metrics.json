@@ -1,0 +1,14 @@
+{
+  "arch": "convnext_tiny",
+  "pretrained": true,
+  "epochs": 20,
+  "best_epoch": 16,
+  "train_time_sec": 781.0,
+  "baseline_majority_class": "paper",
+  "baseline_test_acc": 0.23607427055702918,
+  "baseline_test_macro_f1": 0.06366237482117311,
+  "best_val_macro_f1": 0.9337192579565451,
+  "test_acc": 0.9257294429708223,
+  "test_macro_f1": 0.9104136031964029,
+  "n_test": 377
+}

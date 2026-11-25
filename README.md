@@ -39,28 +39,40 @@ TrashNet에는 **같은 물체를 각도·조명만 바꿔 여러 번 찍은 사
 | 기준선: 항상 '종이'라고 답하기 | – | – | 23.6% | 0.064 |
 | 작은 CNN (합성곱 4층, 처음부터 학습) | ✗ | 40 (39) | 70.3% | 0.683 |
 | ResNet18 (미세조정) | ImageNet | 20 (12) | 90.7% | 0.897 |
-| **MobileNetV3-Large (미세조정)** | ImageNet | 20 (13) | **91.5%** | **0.901** |
+| MobileNetV3-Large (미세조정) | ImageNet | 20 (13) | 91.5% | 0.901 |
+| ConvNeXt-Tiny (미세조정) | ImageNet | 20 (16) | 92.6% | 0.910 |
+| **EfficientNet-B0 (미세조정, 기본 모델)** | ImageNet | 25 (18) | **93.1%** | **0.920** |
 
 클래스 수가 고르지 않아(일반쓰레기 20장 vs 종이 89장) 정확도와 함께 **macro-F1**(클래스별 F1의 평균)을 봅니다. 모델 선택도 val macro-F1 기준입니다.
 
-### 혼동행렬 (MobileNetV3, 행=실제, 열=예측)
+| 모델 | 파라미터 | 학습 시간 (GTX 1660 Ti) | val macro-F1 |
+|---|---|---|---|
+| EfficientNet-B0 | 약 400만 | 5.0분 (25 epoch) | 0.913 |
+| ConvNeXt-Tiny | 약 2,800만 | 13.0분 (20 epoch, batch 16) | 0.934 |
+| MobileNetV3-Large | 약 420만 | 3.3분 | 0.913 |
+| ResNet18 | 약 1,100만 | 3.6분 | 0.909 |
+
+> **어떤 모델을 쓸까?** 규칙대로 **val** 기준으로 고르면 ConvNeXt-Tiny가 1등입니다. 테스트에서는 EfficientNet-B0이 2장(0.5%p) 더 맞혔지만, 377장에서 2장 차이는 우연으로도 생길 수 있는 크기입니다. 두 모델 성능은 사실상 같다고 보고, **크기가 1/7이고 2.6배 빨리 학습되는 EfficientNet-B0을 기본 모델**로 정했습니다. 테스트 결과를 보고 모델을 고르면 테스트셋이 더 이상 '보지 않은 자료'가 아니게 되므로, 발표에서는 이 점을 함께 밝힙니다.
+
+### 혼동행렬 (EfficientNet-B0, 행=실제, 열=예측)
 
 | 실제\예측 | 골판지 | 유리 | 금속 | 종이 | 플라스틱 | 일반쓰레기 | 재현율 |
 |---|---|---|---|---|---|---|---|
 | 골판지 | **58** | 0 | 0 | 2 | 0 | 0 | 96.7% |
-| 유리 | 0 | **68** | 3 | 0 | 4 | 0 | 90.7% |
+| 유리 | 0 | **71** | 1 | 0 | 3 | 0 | 94.7% |
 | 금속 | 0 | 0 | **60** | 0 | 0 | 1 | 98.4% |
-| 종이 | 1 | 0 | 2 | **81** | 2 | 3 | 91.0% |
-| 플라스틱 | 0 | 1 | 5 | 2 | **60** | 4 | 83.3% |
-| 일반쓰레기 | 0 | 0 | 1 | 1 | 0 | **18** | 90.0% |
+| 종이 | 1 | 1 | 1 | **81** | 2 | 3 | 91.0% |
+| 플라스틱 | 0 | 2 | 3 | 1 | **61** | 5 | 84.7% |
+| 일반쓰레기 | 0 | 0 | 0 | 0 | 0 | **20** | 100% |
 
-![MobileNetV3 혼동행렬](results/mobilenet_v3/confusion_matrix.png)
+![EfficientNet-B0 혼동행렬](results/efficientnet_b0/confusion_matrix.png)
 
 ### 오류 분석
 
-![MobileNetV3 오답 사진](results/mobilenet_v3/test_errors.png)
+![EfficientNet-B0 오답 사진](results/efficientnet_b0/test_errors.png)
 
-1. **플라스틱이 가장 어렵다 (재현율 83%).** 틀린 플라스틱 사진은 대부분 금속(5)이나 일반쓰레기(4)로 갔습니다.
+0. **모든 모델에서 플라스틱이 가장 어렵습니다.** 재현율은 ConvNeXt 81.9%, MobileNetV3 83.3%, EfficientNet 84.7%입니다. 일반쓰레기 정밀도는 0.69~0.74로 낮습니다. 일반쓰레기 재현율을 높이려고 클래스 가중치를 줬는데, 그 대가로 다른 재질(특히 비닐 포장)이 일반쓰레기로 끌려옵니다.
+1. **플라스틱 오답 사례 (MobileNetV3 기준).** 틀린 플라스틱 사진은 대부분 금속(5)이나 일반쓰레기(4)로 갔습니다.
    - 금속으로 오인: 광택 있는 흰 용기, 반사가 강한 요거트 통. 매끈한 반사광을 금속의 단서로 쓰는 것으로 보입니다.
    - 일반쓰레기로 오인: 구겨진 과자 봉지(비닐 포장재). 이 데이터셋의 'trash' 클래스가 주로 구겨진 비닐·포장재라서 생긴 혼동입니다.
 2. **유리 ↔ 플라스틱/금속.** 반투명 젖빛 유리병과 투명 병은 플라스틱 병과 형태가 거의 같습니다. 병 일부만 크게 찍힌 사진은 재질 단서(두께, 굴절)가 적어 더 자주 틀립니다.
@@ -90,13 +102,15 @@ pip install -r requirements.txt
 python check_split.py --data ../TrashNet_dataset
 
 # 5) 학습 + 기준선 비교 + 테스트 평가 (결과는 results/<모델>/ 에 저장)
-python train.py --arch resnet18     --epochs 20 --lr 3e-4
-python train.py --arch mobilenet_v3 --epochs 20 --lr 5e-4
-python train.py --arch simple_cnn   --epochs 40 --lr 3e-3
+python train.py --arch efficientnet_b0 --epochs 25 --lr 1e-3            # 기본 모델
+python train.py --arch convnext_tiny   --epochs 20 --lr 1e-4 --batch 16
+python train.py --arch resnet18        --epochs 20 --lr 3e-4
+python train.py --arch mobilenet_v3    --epochs 20 --lr 5e-4
+python train.py --arch simple_cnn      --epochs 40 --lr 3e-3
 
 # 6) 예측 / 추가 시험(학습에 없던 물체를 다른 배경에서 찍은 사진)
-python predict.py --model checkpoints/resnet18.pt --input photo.jpg
-python predict.py --model checkpoints/resnet18.pt --evaluate my_photos/   # my_photos/<클래스>/*.jpg
+python predict.py --model checkpoints/efficientnet_b0.pt --input photo.jpg
+python predict.py --model checkpoints/efficientnet_b0.pt --evaluate my_photos/   # my_photos/<클래스>/*.jpg
 ```
 
 Colab에서 실행할 때는 저장소와 `TrashNet_dataset` 폴더를 올린 뒤 런타임을 GPU로 바꾸고 같은 명령을 `!python ...` 으로 실행하면 됩니다.
@@ -105,7 +119,7 @@ Colab에서 실행할 때는 저장소와 `TrashNet_dataset` 폴더를 올린 �
 
 | 파일 | 역할 |
 |---|---|
-| `common.py` | 클래스 목록, 데이터셋, 증강, 모델(ResNet18 / MobileNetV3 / 작은 CNN) |
+| `common.py` | 클래스 목록, 데이터셋, 증강, 모델(EfficientNet-B0 / ConvNeXt-Tiny / ResNet18 / MobileNetV3 / 작은 CNN) |
 | `train.py` | 학습, 기준선(가장 흔한 클래스) 비교, 테스트 평가, 혼동행렬·오답 이미지 저장 |
 | `predict.py` | 사진 예측, 새 사진 폴더로 추가 시험 |
 | `check_split.py` | 그룹 누수 점검과 세트별 사례 수 |

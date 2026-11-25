@@ -115,7 +115,7 @@ def plot_errors(items, y, p, probs, path, max_n=24):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="../TrashNet_dataset", help="train/val/test 폴더가 있는 경로")
-    ap.add_argument("--arch", default="resnet18", choices=ARCHS)
+    ap.add_argument("--arch", default="efficientnet_b0", choices=ARCHS)
     ap.add_argument("--no-pretrained", action="store_true")
     ap.add_argument("--epochs", type=int, default=20)
     ap.add_argument("--batch", type=int, default=32)

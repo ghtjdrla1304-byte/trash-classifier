@@ -79,11 +79,22 @@ class SimpleCNN(nn.Module):
         return self.head(self.features(x))
 
 
-ARCHS = ["resnet18", "mobilenet_v3", "simple_cnn"]
+ARCHS = ["efficientnet_b0", "convnext_tiny", "resnet18", "mobilenet_v3", "simple_cnn"]
 
 
 def build_model(arch, num_classes, pretrained=True):
-    if arch == "resnet18":
+    if arch == "efficientnet_b0":
+        # 깊이·너비·해상도를 함께 키운 효율적인 CNN (6분류 기준 약 400만 파라미터)
+        w = models.EfficientNet_B0_Weights.DEFAULT if pretrained else None
+        m = models.efficientnet_b0(weights=w)
+        m.classifier = nn.Sequential(nn.Dropout(0.3),
+                                     nn.Linear(m.classifier[-1].in_features, num_classes))
+    elif arch == "convnext_tiny":
+        # Transformer 설계를 CNN에 옮긴 최신 구조 (약 2,800만 파라미터)
+        w = models.ConvNeXt_Tiny_Weights.DEFAULT if pretrained else None
+        m = models.convnext_tiny(weights=w)
+        m.classifier[-1] = nn.Linear(m.classifier[-1].in_features, num_classes)
+    elif arch == "resnet18":
         m = models.resnet18(weights=models.ResNet18_Weights.DEFAULT if pretrained else None)
         m.fc = nn.Linear(m.fc.in_features, num_classes)
     elif arch == "mobilenet_v3":

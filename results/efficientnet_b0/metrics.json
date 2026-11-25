@@ -1,0 +1,14 @@
+{
+  "arch": "efficientnet_b0",
+  "pretrained": true,
+  "epochs": 25,
+  "best_epoch": 18,
+  "train_time_sec": 299.2,
+  "baseline_majority_class": "paper",
+  "baseline_test_acc": 0.23607427055702918,
+  "baseline_test_macro_f1": 0.06366237482117311,
+  "best_val_macro_f1": 0.9128255130864603,
+  "test_acc": 0.9310344827586207,
+  "test_macro_f1": 0.9194986148622272,
+  "n_test": 377
+}
