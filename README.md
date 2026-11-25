@@ -123,5 +123,6 @@ Colab에서 실행할 때는 저장소와 `TrashNet_dataset` 폴더를 올린 �
 | `train.py` | 학습, 기준선(가장 흔한 클래스) 비교, 테스트 평가, 혼동행렬·오답 이미지 저장 |
 | `predict.py` | 사진 예측, 새 사진 폴더로 추가 시험 |
 | `check_split.py` | 그룹 누수 점검과 세트별 사례 수 |
+| `share/` | **공유용 단독 실행 파일** — `trash_efficientnet_b0.py`, `trash_convnext_tiny.py` (파일 하나로 학습·평가·예측) |
 | `data_split_review/` | 그룹 분할 근거 CSV (사진별 그룹·세트, 제외 사진, 검토 기록) |
 | `results/<모델>/` | `metrics.json`, `confusion_matrix.png/csv`, `training_curve.png`, `test_errors.png/csv` |
